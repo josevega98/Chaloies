@@ -5,26 +5,50 @@ import {Link} from 'react-router-dom'
 const endpoint = 'http://192.168.0.32:8000/api'
 function ShowProducts() {
     const [products, setProducts] = useState([])
+    const [searchproducts, setSearchproducts] = useState([])
+    const [busqueda, setBusqueda] = useState("")
     useEffect (() => {
         getAllProduct()
     }, [])
 
     const getAllProduct = async () =>  {
         const response = await axios.get(`${endpoint}/products`)
+        
         setProducts(response.data)
+        setSearchproducts(response.data)
     }
 
     const deleteProduct = async (id) =>{
-        const response = await axios.delete(`${endpoint}/product/${id}`)
+        await axios.delete(`${endpoint}/product/${id}`)
         getAllProduct()
     }
+    
+    const handleChange = e=>{
+        setBusqueda(e.target.value)
+        filter(e.target.value)
+    }
 
+    const filter=(word) =>{
+        var resultadosBusqueda=searchproducts.filter((elemento)=>{
+            if(elemento.name.toString().toLowerCase().includes(word.toLowerCase())
+            || elemento.descripcion.toString().toLowerCase().includes(word.toLowerCase())
+            ){
+              return elemento;
+            }
+          });
+        setProducts(resultadosBusqueda);
+    }
   return (
     <div>
         <div className='d-grid gap-2'>
             <Link to="/create" className='btn btn-success btn-lg mt-2 mb-2 text-white'>Registrar</Link>
         </div>
-
+        <div className='container-input'>
+            <input  className='form-control inputBuscar' 
+                    placeholder='Busqueda por Nombre o descripcion'
+                    value={busqueda}
+                    onChange={handleChange} />
+        </div>
         <table className='table table-striped'>
             <thead className='bg-primary text-white'>
                 <tr>
