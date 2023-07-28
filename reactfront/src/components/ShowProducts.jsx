@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 
 import {Link} from 'react-router-dom'
-const endpoint = 'http://192.168.0.40:8000/api'
+const endpoint = 'http://192.168.0.32:8000/api'
 function ShowProducts() {
     const [products, setProducts] = useState([])
     useEffect (() => {
