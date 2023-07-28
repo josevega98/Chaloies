@@ -37,7 +37,7 @@ const EditProduct = () => {
 
     return (
         <div className="container">
-        <h3>Edit Product</h3>
+        <h3>Editar Producto</h3>
         <form onSubmit={update}>
             <div className='mb-3'>
                 <label className='form-label'>Nombre del Producto</label>
@@ -75,7 +75,7 @@ const EditProduct = () => {
                     className='form-control'
                 />
             </div>
-            <button type='submit' className='btn btn-primary'>Update</button>
+            <button type='submit' className='btn btn-primary'>Actualizar</button>
         </form>
     </div>
     )
