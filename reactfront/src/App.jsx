@@ -10,7 +10,8 @@ function App() {
       <div className='app'>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element = {<ShowProducts/>} />
+            <Route path='/' element = {<ShowProducts isView/>} />
+            <Route path='/store' element = {<ShowProducts isView = {false}/>} />
             <Route path='/create' element = {<CreateProduct/>} />
             <Route path='/edit/:id' element = {<EditProdcut/>} />
           </Routes>

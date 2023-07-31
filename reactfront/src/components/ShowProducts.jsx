@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
-
 import {Link} from 'react-router-dom'
-const endpoint = 'http://192.168.0.32:8000/api'
-function ShowProducts() {
+
+const endpoint = 'http://localhost:8000/api'
+function ShowProducts({isView}) {
     const [products, setProducts] = useState([])
     const [searchproducts, setSearchproducts] = useState([])
     const [busqueda, setBusqueda] = useState("")
+    const [venta, setVenta] = useState()
     useEffect (() => {
         getAllProduct()
     }, [])
@@ -41,8 +42,23 @@ function ShowProducts() {
   return (
     <div>
         <div className='d-grid gap-2'>
-            <Link to="/create" className='btn btn-success btn-lg mt-2 mb-2 text-white'>Registrar</Link>
+            <Link to="/create" className='btn btn-primary btn-lg mt-2 mb-2 text-white'>Registrar</Link>
         </div>
+        {isView ? (
+            <> 
+                <div className='d-grid gap-2'>
+                    <Link to="/store" className='btn btn-success btn-lg mt-2 mb-2 text-white'>Vender</Link>
+                </div>
+                <h1>Inventario</h1>
+            </>
+        ) : (
+            <>
+                <div className='d-grid gap-2'>
+                    <Link to="/" className='btn btn-success btn-lg mt-2 mb-2 text-white'>Inventario</Link>
+                </div>
+                <h1>Registro de Ventas</h1>
+            </>
+        )}
         <div className='container-input'>
             <input  className='form-control inputBuscar' 
                     placeholder='Busqueda por Nombre o descripcion'
@@ -67,17 +83,36 @@ function ShowProducts() {
                         <td> {product.stock} </td>
                         <td> {product.price} </td>
                         <td>
-                            <Link to={`/edit/${product.id}`} className='btn btn-warning'>
-                                Editar
-                            </Link>
-                            <button onClick={() => deleteProduct(product.id)} className='btn btn-danger'>
-                                Eliminar
-                            </button>
+                            {isView ? (
+                            <>
+                                <Link to={`/edit/${product.id}`} className='btn btn-warning'>
+                                    Editar
+                                </Link>
+                                <button onClick={() => deleteProduct(product.id)} className='btn btn-success'>
+                                    Eliminar
+                                </button>
+                            </>) : (
+                            <>
+                                <button onClick={() => storeProduct(product.id)} className='btn btn-success'>
+                                    Añadir
+                                </button>
+                            </>
+                            )}
+
                         </td>
                     </tr>
                 ))}
             </tbody>
         </table>
+        {isView ? (
+            <>
+            </>
+        ) : (
+            <>
+                <hr />
+                
+            </>
+        )}
     </div>
   )
 }
